@@ -88,7 +88,10 @@ export function useFlowGraph() {
     [actions],
   );
 
-  return { nodes, edges, setNodes, onNodesChange, onEdgesChange, onConnect };
+  /** A drag is its own undo step, even right after another edit. */
+  const onNodeDragStart = actions.newStep;
+
+  return { nodes, edges, setNodes, setEdges, onNodesChange, onEdgesChange, onConnect, onNodeDragStart };
 }
 
 /** The part of a React Flow change that belongs in the Y.Doc, if any. */

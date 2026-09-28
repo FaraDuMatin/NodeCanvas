@@ -24,14 +24,14 @@ import { useHelperLines } from "./helper-lines/useHelperLines";
 import { useImageDrop } from "./images/useImageDrop";
 import { nodeTypes } from "./nodes/nodeTypes";
 import type { FlowEdge, FlowNode } from "./sync/flowTypes";
-import { useFlowGraph } from "./sync/useFlowGraph";
+import { useGraphState } from "./sync/FlowGraphProvider";
 import { Toolbar } from "./toolbar/Toolbar";
 import { toolFlowProps, useToolMode } from "./tools/useToolMode";
 
 const GRID = 16;
 
 export function Canvas() {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useFlowGraph();
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onNodeDragStart } = useGraphState();
   const { tool, setTool } = useToolMode();
   const commands = useCanvasCommands(setTool);
   const { guides, applyHelperLines } = useHelperLines(nodes);
@@ -58,6 +58,7 @@ export function Canvas() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onConnectEnd={onConnectEnd}
+        onNodeDragStart={onNodeDragStart}
         onNodeDragStop={onNodeDragStop}
         onNodeContextMenu={contextMenu.onNodeContextMenu}
         onEdgeContextMenu={contextMenu.onEdgeContextMenu}

@@ -99,3 +99,4 @@ scripts/         smoke.mjs: end-to-end test (Playwright + local Chrome)
 
 ## Progress log
 - 2026-09-27 — Steps 1-2 done. Monorepo (npm workspaces), server (Hocuspocus v4 + SQLite, MCP stateless HTTP, uploads), Next 16 canvas synced via Yjs. Text/image/group nodes, floating labeled edges, resize. UX (step 3) code written: helper lines, shortcuts, undo, clipboard, context menu, grouping, connect-to-create. Works: smoke test passes (UI create, MCP create/link/layout live). Next: manually verify step 3 UX, then image upload.
+- 2026-09-27 — Steps 3-4 verified. e2e/ux.mjs passes: duplicate, copy/paste, delete, undo/redo, group/ungroup, V/H, context menus, connect-to-create, resize, drag, image drop + picker. Fixes: selection after paste (FlowGraphProvider setters), discrete undo steps. SQLite persistence survives restart. Next: test MCP with Claude, polish (step 6).

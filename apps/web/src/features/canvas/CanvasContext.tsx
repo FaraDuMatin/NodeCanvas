@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import * as Y from "yjs";
 import { getEdgesMap, getNodesMap } from "@node-canvas/graph";
 import { LOCAL_ORIGIN, createCanvasActions, type CanvasActions } from "./actions/canvasActions";
@@ -14,22 +14,17 @@ interface CanvasContextValue {
 const CanvasContext = createContext<CanvasContextValue | null>(null);
 
 export function CanvasProvider({ doc, children }: { doc: Y.Doc; children: ReactNode }) {
-  const actions = useMemo(() => createCanvasActions(doc), [doc]);
-  const [undoManager, setUndoManager] = useState<Y.UndoManager | null>(null);
+  const [value, setValue] = useState<CanvasContextValue | null>(null);
 
   useEffect(() => {
-    const manager = new Y.UndoManager([getNodesMap(doc), getEdgesMap(doc)], {
+    const undoManager = new Y.UndoManager([getNodesMap(doc), getEdgesMap(doc)], {
       trackedOrigins: new Set([LOCAL_ORIGIN]),
       captureTimeout: 400,
     });
-    setUndoManager(manager);
-    return () => manager.destroy();
+    setValue({ doc, undoManager, actions: createCanvasActions(doc, undoManager) });
+    return () => undoManager.destroy();
   }, [doc]);
 
-  const value = useMemo(
-    () => (undoManager ? { doc, actions, undoManager } : null),
-    [doc, actions, undoManager],
-  );
   if (!value) return null;
   return <CanvasContext.Provider value={value}>{children}</CanvasContext.Provider>;
 }

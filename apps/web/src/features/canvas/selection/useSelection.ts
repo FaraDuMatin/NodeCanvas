@@ -5,12 +5,14 @@ import { useReactFlow } from "@xyflow/react";
 import { getEdgesMap, getNodesMap } from "@node-canvas/graph";
 import type { CanvasEdge, CanvasNode } from "@node-canvas/schema";
 import { useCanvas } from "../CanvasContext";
+import { useFlowSetters } from "../sync/FlowGraphProvider";
 import type { FlowEdge, FlowNode } from "../sync/flowTypes";
 
 /** Reads and sets the current selection. Returns Y.Doc records, not React Flow nodes. */
 export function useSelection() {
   const { doc } = useCanvas();
-  const { getNodes, getEdges, setNodes, setEdges } = useReactFlow<FlowNode, FlowEdge>();
+  const { getNodes, getEdges } = useReactFlow<FlowNode, FlowEdge>();
+  const { setNodes, setEdges } = useFlowSetters();
 
   const selectedNodes = useCallback((): CanvasNode[] => {
     const map = getNodesMap(doc);

@@ -6,6 +6,7 @@ import { useCollabDoc } from "@/lib/collab/useCollabDoc";
 import { CanvasProvider } from "./CanvasContext";
 import { Canvas } from "./Canvas";
 import { BoardHeader } from "./BoardHeader";
+import { FlowGraphProvider } from "./sync/FlowGraphProvider";
 
 export function BoardCanvas({ boardId }: { boardId: string }) {
   const { collab, status } = useCollabDoc(boardDocName(boardId));
@@ -21,10 +22,12 @@ export function BoardCanvas({ boardId }: { boardId: string }) {
   return (
     <ReactFlowProvider>
       <CanvasProvider key={collab.doc.guid} doc={collab.doc}>
-        <div className="relative h-full w-full bg-canvas">
-          <Canvas />
-          <BoardHeader boardId={boardId} status={status} />
-        </div>
+        <FlowGraphProvider>
+          <div className="relative h-full w-full bg-canvas">
+            <Canvas />
+            <BoardHeader boardId={boardId} status={status} />
+          </div>
+        </FlowGraphProvider>
       </CanvasProvider>
     </ReactFlowProvider>
   );

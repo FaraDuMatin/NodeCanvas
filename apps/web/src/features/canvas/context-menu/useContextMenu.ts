@@ -3,13 +3,15 @@
 import { useCallback, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { useReactFlow } from "@xyflow/react";
 import { useSelection } from "../selection/useSelection";
+import { useFlowSetters } from "../sync/FlowGraphProvider";
 import type { FlowEdge, FlowNode } from "../sync/flowTypes";
 import type { MenuState, MenuTarget } from "./types";
 
 /** Right-click handlers for React Flow. Right-clicking an unselected node selects it first. */
 export function useContextMenu() {
   const [menu, setMenu] = useState<MenuState | null>(null);
-  const { screenToFlowPosition, setEdges } = useReactFlow<FlowNode, FlowEdge>();
+  const { screenToFlowPosition } = useReactFlow();
+  const { setEdges } = useFlowSetters();
   const { select } = useSelection();
 
   const open = useCallback(

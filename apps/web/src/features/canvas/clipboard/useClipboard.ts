@@ -25,10 +25,11 @@ export function useClipboard() {
 
   const paste = useCallback(
     (fragment: GraphFragment, offset: number) => {
+      actions.newStep();
       const ids = insertFragment(doc, fragment, { x: offset, y: offset }, LOCAL_ORIGIN);
       select(ids);
     },
-    [doc, select],
+    [doc, actions, select],
   );
 
   const duplicate = useCallback(() => {
