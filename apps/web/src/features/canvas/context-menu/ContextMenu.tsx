@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { ColorSwatches } from "./ColorSwatches";
 import type { MenuItem, MenuState } from "./types";
 
 interface Props {
@@ -41,6 +42,15 @@ export function ContextMenu({ menu, items, onClose }: Props) {
       {items.map((item, i) =>
         item === "separator" ? (
           <div key={i} className="-mx-1 my-1 h-px bg-border" />
+        ) : "colors" in item ? (
+          <ColorSwatches
+            key={i}
+            colors={item.colors}
+            onPick={(color) => {
+              item.onPick(color);
+              onClose();
+            }}
+          />
         ) : (
           <button
             key={item.label}

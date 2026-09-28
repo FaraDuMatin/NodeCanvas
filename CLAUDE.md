@@ -67,6 +67,7 @@ scripts/         smoke.mjs: end-to-end test (Playwright + local Chrome)
 |---|---|
 | `list_boards` | none |
 | `create_board` | name |
+| `delete_board` | boardId |
 | `list_graph` | boardId |
 | `create_node` | boardId, type, label, content?, color?, position?, size?, nearNodeId?, parentId? |
 | `update_node` | boardId, id, fields |
@@ -103,3 +104,4 @@ scripts/         smoke.mjs: end-to-end test (Playwright + local Chrome)
 - 2026-09-27 — Steps 1-2 done. Monorepo (npm workspaces), server (Hocuspocus v4 + SQLite, MCP stateless HTTP, uploads), Next 16 canvas synced via Yjs. Text/image/group nodes, floating labeled edges, resize. UX (step 3) code written: helper lines, shortcuts, undo, clipboard, context menu, grouping, connect-to-create. Works: smoke test passes (UI create, MCP create/link/layout live). Next: manually verify step 3 UX, then image upload.
 - 2026-09-27 — Steps 3-4 verified. e2e/ux.mjs passes: duplicate, copy/paste, delete, undo/redo, group/ungroup, V/H, context menus, connect-to-create, resize, drag, image drop + picker. Fixes: selection after paste (FlowGraphProvider setters), discrete undo steps. SQLite persistence survives restart. Next: test MCP with Claude, polish (step 6).
 - 2026-09-27 — Step 5 done. MCP Inspector lists tools. Added add_graph (bulk nodes/edges by ref, optional layout) and group_nodes. Children auto-placed inside groups; groups grow to fit. Fixed group default styling and edge label layering. Next: step 6 polish (colors, animations, empty state).
+- 2026-09-27 — Step 6 polish. Node colors (context menu swatches), appear animations, empty-board hint, double-click canvas to add node, delete_board tool; e2e tests clean up their boards. Works: e2e smoke + ux pass. Next: user feedback; ideas: live cursors (Yjs awareness), markdown in nodes, board thumbnails.

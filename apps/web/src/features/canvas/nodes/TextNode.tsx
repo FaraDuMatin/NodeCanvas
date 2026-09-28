@@ -18,7 +18,7 @@ export const TextNode = memo(function TextNode({ id, data, selected }: NodeProps
   return (
     <div
       className={cn(
-        "group flex size-full flex-col gap-1 overflow-hidden rounded-xl border bg-card px-4 py-3 shadow-sm transition-shadow",
+        "group flex size-full animate-in flex-col gap-1 overflow-hidden rounded-xl fade-in-0 zoom-in-95 border bg-card px-4 py-3 shadow-sm transition-shadow",
         selected ? "border-brand shadow-lg ring-1 ring-brand" : "hover:shadow-md",
       )}
       style={data.color ? { borderTopColor: data.color, borderTopWidth: 4 } : undefined}

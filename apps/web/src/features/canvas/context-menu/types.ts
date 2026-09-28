@@ -16,4 +16,5 @@ export interface MenuState {
 
 export type MenuItem =
   | { label: string; shortcut?: string; danger?: boolean; onSelect: () => void }
+  | { colors: readonly string[]; onPick: (color: string) => void }
   | "separator";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, type MouseEvent } from "react";
 import {
   Background,
   BackgroundVariant,
@@ -8,9 +8,11 @@ import {
   Controls,
   MiniMap,
   ReactFlow,
+  useReactFlow,
   SelectionMode,
   type NodeChange,
 } from "@xyflow/react";
+import { EmptyHint } from "./EmptyHint";
 import { useCanvasCommands } from "./commands/useCanvasCommands";
 import { useShortcuts } from "./commands/useShortcuts";
 import { useConnectToCreate } from "./connect/useConnectToCreate";
@@ -42,13 +44,22 @@ export function Canvas() {
 
   useShortcuts({ ...commands, newNode: () => commands.addText() });
 
+  const { screenToFlowPosition } = useReactFlow();
+  const onDoubleClick = useCallback(
+    (e: MouseEvent) => {
+      if (tool !== "select" || !(e.target as Element).classList.contains("react-flow__pane")) return;
+      commands.addText(screenToFlowPosition({ x: e.clientX, y: e.clientY }));
+    },
+    [tool, commands, screenToFlowPosition],
+  );
+
   const handleNodesChange = useCallback(
     (changes: NodeChange<FlowNode>[]) => onNodesChange(applyHelperLines(changes)),
     [onNodesChange, applyHelperLines],
   );
 
   return (
-    <div className="size-full" {...imageDrop}>
+    <div className="size-full" onDoubleClick={onDoubleClick} {...imageDrop}>
       <ReactFlow<FlowNode, FlowEdge>
         nodes={nodes}
         edges={edges}
@@ -86,6 +97,7 @@ export function Canvas() {
         <Controls showInteractive={false} position="bottom-left" />
         <HelperLinesOverlay {...guides} />
       </ReactFlow>
+      {nodes.length === 0 && <EmptyHint />}
       <Toolbar tool={tool} commands={commands} />
       {contextMenu.menu && (
         <ContextMenu

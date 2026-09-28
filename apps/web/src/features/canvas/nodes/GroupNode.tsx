@@ -17,7 +17,7 @@ export const GroupNode = memo(function GroupNode({ id, data, selected }: NodePro
   return (
     <div
       className={cn(
-        "size-full rounded-2xl border-2 border-dashed bg-foreground/[0.03]",
+        "size-full animate-in rounded-2xl border-2 border-dashed bg-foreground/[0.03] fade-in-0",
         selected ? "border-brand" : "border-border",
       )}
       style={data.color ? { borderColor: data.color } : undefined}

@@ -74,6 +74,18 @@ await withBrowser(async (page) => {
   await page.getByRole("menuitem", { name: /^Delete/ }).click();
   await until(async () => !(await graph()).nodes.some((n) => n.id === b.id), "context delete");
 
+  step("context menu color swatch colors the node");
+  await nodeEl(a.id).click({ button: "right", position: { x: 8, y: 8 } });
+  await page.getByRole("menuitem", { name: "Color #22c55e" }).click();
+  await until(async () => (await graph()).nodes.find((n) => n.id === a.id).data.color === "#22c55e", "color");
+
+  step("double-click on empty canvas creates a node");
+  const beforeDbl = await count();
+  await pane.dblclick({ position: { x: 1200, y: 150 } });
+  await page.keyboard.type("Dbl");
+  await page.keyboard.press("Enter");
+  await until(async () => (await count()) === beforeDbl + 1, "double-click create");
+
   // Copies of A overlap it; clear them so pointer tests hit A.
   for (const node of (await graph()).nodes) {
     if (node.id !== a.id) await mcp("delete_node", { boardId, id: node.id });
@@ -140,5 +152,8 @@ await withBrowser(async (page) => {
   await until(async () => (await graph()).nodes.filter((n) => n.type === "image").length === 2, "image picker");
 
   await page.screenshot({ path: path.join(OUT, "ux.png") });
-  console.log(`\nAll UX checks passed. Board ${boardId}`);
+  console.log("\nAll UX checks passed.");
 });
+
+// KEEP=1 keeps the test board for inspection.
+if (!process.env.KEEP) await mcp("delete_board", { boardId });

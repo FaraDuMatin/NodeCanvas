@@ -76,6 +76,10 @@ export function useCanvasCommands(setTool: (tool: ToolMode) => void) {
       group,
       ungroup,
       deleteSelection,
+      setColor: (ids: string[], color: string) => {
+        actions.newStep();
+        actions.batch(() => ids.forEach((id) => actions.updateNode(id, { data: { color } })));
+      },
       bringToFront: (ids: string[]) => setZ(ids, true),
       sendToBack: (ids: string[]) => setZ(ids, false),
       selectAll,
@@ -83,7 +87,7 @@ export function useCanvasCommands(setTool: (tool: ToolMode) => void) {
       autoLayout,
       selectedNodes,
     }),
-    [history, setTool, addText, addGroup, addImages, duplicate, group, ungroup, deleteSelection, setZ, selectAll, select, autoLayout, selectedNodes],
+    [actions, history, setTool, addText, addGroup, addImages, duplicate, group, ungroup, deleteSelection, setZ, selectAll, select, autoLayout, selectedNodes],
   );
 }
 

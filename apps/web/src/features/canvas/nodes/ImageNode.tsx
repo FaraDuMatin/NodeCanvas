@@ -24,7 +24,7 @@ export const ImageNode = memo(function ImageNode({ id, data, selected, width }: 
   return (
     <div
       className={cn(
-        "size-full overflow-hidden rounded-lg bg-muted shadow-sm",
+        "size-full animate-in overflow-hidden rounded-lg bg-muted shadow-sm fade-in-0 zoom-in-95",
         selected && "ring-2 ring-brand",
       )}
     >

@@ -24,7 +24,7 @@ claude mcp add --transport http node-canvas http://localhost:3001/mcp
 
 With `AUTH_TOKEN` set, add `--header "Authorization: Bearer <token>"`.
 
-Tools: `list_boards`, `create_board`, `list_graph`, `create_node`, `update_node`, `delete_node`, `link_nodes`, `unlink`, `add_image`, `auto_layout`, `add_graph` (bulk create), `group_nodes`.
+Tools: `list_boards`, `create_board`, `delete_board`, `list_graph`, `create_node`, `update_node`, `delete_node`, `link_nodes`, `unlink`, `add_image`, `auto_layout`, `add_graph` (bulk create), `group_nodes`.
 
 ## Shortcuts
 
@@ -39,7 +39,9 @@ Tools: `list_boards`, `create_board`, `list_graph`, `create_node`, `update_node`
 | Ctrl/⌘ + G, Ctrl/⌘ + Shift + G | Group / ungroup |
 | Ctrl/⌘ + A | Select all |
 | Delete / Backspace | Delete selection |
-| Double-click | Edit text |
+| Double-click node | Edit text |
+| Double-click canvas | New text node |
+| Right-click | Context menu (colors, z-order, layout…) |
 
 Drag from a node's handle to empty canvas to create a linked node. Drop or paste images onto the canvas.
 

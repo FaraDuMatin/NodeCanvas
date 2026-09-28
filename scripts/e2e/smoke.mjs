@@ -53,5 +53,7 @@ await withBrowser(async (page) => {
   await page.waitForTimeout(500);
 
   await page.screenshot({ path: path.join(OUT, "smoke.png") });
-  console.log(`\nBoard ${boardId} — screenshot in ${OUT}`);
+  console.log(`\nScreenshot in ${OUT}`);
+  // KEEP=1 keeps the test board for inspection.
+  if (!process.env.KEEP) await mcp("delete_board", { boardId });
 });
