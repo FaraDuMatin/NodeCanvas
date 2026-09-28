@@ -1,0 +1,12 @@
+node_modules/
+.next/
+next-env.d.ts
+dist/
+data/
+*.sqlite
+*.sqlite-*
+.env
+.env.local
+*.tsbuildinfo
+.e2e-profile/
+.mcp.json

@@ -1,0 +1,19 @@
+{
+  "name": "node-canvas",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,web -c blue,green \"npm run dev -w @node-canvas/server\" \"npm run dev -w @node-canvas/web\"",
+    "build": "npm run build -w @node-canvas/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "playwright-core": "^1.63.0",
+    "typescript": "~5.9.0"
+  }
+}

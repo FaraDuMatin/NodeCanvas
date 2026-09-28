@@ -1,0 +1,20 @@
+{
+  "name": "@node-canvas/graph",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@node-canvas/schema": "*",
+    "elkjs": "^0.11.0",
+    "nanoid": "^5.1.0",
+    "yjs": "^13.6.27"
+  }
+}
