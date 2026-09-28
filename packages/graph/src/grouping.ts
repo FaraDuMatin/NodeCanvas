@@ -2,9 +2,9 @@ import type * as Y from "yjs";
 import type { CanvasNode, Position } from "@node-canvas/schema";
 import { getNodesMap, type NodesMap } from "./doc";
 import { absolutePosition, absoluteRect } from "./geometry";
+import { GROUP_PADDING } from "./defaults";
 import { newId } from "./ids";
 
-const PADDING = 32;
 
 const isAncestor = (nodes: NodesMap, ancestorId: string, node: CanvasNode): boolean => {
   let parentId = node.parentId;
@@ -23,7 +23,12 @@ const originOf = (nodes: NodesMap, parentId?: string): Position => {
 };
 
 /** Wraps nodes in a new group sized to fit them. Returns the group, or undefined if nothing to group. */
-export function groupNodes(doc: Y.Doc, ids: string[], origin?: unknown): CanvasNode | undefined {
+export function groupNodes(
+  doc: Y.Doc,
+  ids: string[],
+  origin?: unknown,
+  label = "Group",
+): CanvasNode | undefined {
   const nodes = getNodesMap(doc);
   const picked = ids.flatMap((id) => nodes.get(id) ?? []);
   const roots = picked.filter((n) => !picked.some((other) => isAncestor(nodes, other.id, n)));
@@ -33,10 +38,10 @@ export function groupNodes(doc: Y.Doc, ids: string[], origin?: unknown): CanvasN
   const parentId = parentIds.size === 1 ? roots[0]!.parentId : undefined;
 
   const rects = roots.map((n) => absoluteRect(nodes, n));
-  const minX = Math.min(...rects.map((r) => r.x)) - PADDING;
-  const minY = Math.min(...rects.map((r) => r.y)) - PADDING;
-  const maxX = Math.max(...rects.map((r) => r.x + r.width)) + PADDING;
-  const maxY = Math.max(...rects.map((r) => r.y + r.height)) + PADDING;
+  const minX = Math.min(...rects.map((r) => r.x)) - GROUP_PADDING;
+  const minY = Math.min(...rects.map((r) => r.y)) - GROUP_PADDING;
+  const maxX = Math.max(...rects.map((r) => r.x + r.width)) + GROUP_PADDING;
+  const maxY = Math.max(...rects.map((r) => r.y + r.height)) + GROUP_PADDING;
   const parentOrigin = originOf(nodes, parentId);
 
   const group: CanvasNode = {
@@ -46,7 +51,7 @@ export function groupNodes(doc: Y.Doc, ids: string[], origin?: unknown): CanvasN
     width: maxX - minX,
     height: maxY - minY,
     ...(parentId ? { parentId } : {}),
-    data: { label: "Group" },
+    data: { label },
   };
 
   doc.transact(() => {

@@ -24,7 +24,7 @@ claude mcp add --transport http node-canvas http://localhost:3001/mcp
 
 With `AUTH_TOKEN` set, add `--header "Authorization: Bearer <token>"`.
 
-Tools: `list_boards`, `create_board`, `list_graph`, `create_node`, `update_node`, `delete_node`, `link_nodes`, `unlink`, `add_image`, `auto_layout`.
+Tools: `list_boards`, `create_board`, `list_graph`, `create_node`, `update_node`, `delete_node`, `link_nodes`, `unlink`, `add_image`, `auto_layout`, `add_graph` (bulk create), `group_nodes`.
 
 ## Shortcuts
 

@@ -7,5 +7,7 @@ export * from "./nodes";
 export * from "./edges";
 export * from "./boards";
 export * from "./snapshot";
+export * from "./groupFit";
 export * from "./grouping";
+export * from "./subgraph";
 export * from "./layout";

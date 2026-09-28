@@ -27,8 +27,29 @@ await withBrowser(async (page) => {
   await page.getByText("From AI", { exact: true }).waitFor();
   await page.getByText("leads to").waitFor();
 
-  step("auto layout via MCP");
-  await mcp("auto_layout", { boardId, direction: "RIGHT" });
+  step("add_graph builds a subgraph linked to existing nodes, then lays out");
+  const { ids } = await mcp("add_graph", {
+    boardId,
+    nodes: [
+      { ref: "act1", type: "group", label: "Act I" },
+      { ref: "call", label: "Call to adventure", content: "A letter arrives.", parent: "act1" },
+      { ref: "refuse", label: "Refusal", parent: "act1" },
+      { ref: "mentor", label: "Meeting the mentor", color: "#f59e0b" },
+    ],
+    edges: [
+      { from: ai.id, to: "call", label: "then" },
+      { from: "call", to: "refuse" },
+      { from: "refuse", to: "mentor" },
+    ],
+    layout: "RIGHT",
+  });
+  await page.getByText("Meeting the mentor").waitFor();
+  const graph = await mcp("list_graph", { boardId });
+  if (graph.nodes.find((n) => n.id === ids.call)?.parentId !== ids.act1) throw new Error("parent not set");
+
+  step("group_nodes via MCP");
+  await mcp("group_nodes", { boardId, ids: [hello.id, ai.id], label: "Intro" });
+  await page.getByText("Intro").waitFor();
   await page.waitForTimeout(500);
 
   await page.screenshot({ path: path.join(OUT, "smoke.png") });

@@ -87,3 +87,18 @@
     @apply h-full bg-background text-foreground antialiased;
   }
 }
+
+/* Our "group" node type shares React Flow's built-in group class. Drop its default look. */
+.react-flow__node-group {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  font-size: inherit;
+  box-shadow: none !important;
+}
+
+/* Edges inside groups are elevated above the default layer; keep labels on top of them. */
+.react-flow__edgelabel-renderer {
+  z-index: 1000;
+}

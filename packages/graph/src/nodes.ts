@@ -3,6 +3,7 @@ import type { CanvasNode, NodeData, NodePatch, NodeType, Position, Size } from "
 import { DEFAULT_SIZE } from "./defaults";
 import { getEdgesMap, getNodesMap } from "./doc";
 import { newId } from "./ids";
+import { findChildPosition, growGroupToFit } from "./groupFit";
 import { findFreePosition } from "./placement";
 
 export interface CreateNodeInput {
@@ -19,16 +20,22 @@ export interface CreateNodeInput {
 export function createNode(doc: Y.Doc, input: CreateNodeInput, origin?: unknown): CanvasNode {
   const nodes = getNodesMap(doc);
   const size = { ...DEFAULT_SIZE[input.type], ...input.size };
+  const parentId = input.parentId && nodes.has(input.parentId) ? input.parentId : undefined;
+  const autoPosition = () =>
+    parentId ? findChildPosition(nodes, parentId) : findFreePosition(nodes, size, input.nearId);
   const node: CanvasNode = {
     id: input.id ?? newId(),
     type: input.type,
-    position: input.position ?? findFreePosition(nodes, size, input.nearId),
+    position: input.position ?? autoPosition(),
     width: size.width,
     height: size.height,
-    ...(input.parentId ? { parentId: input.parentId } : {}),
+    ...(parentId ? { parentId } : {}),
     data: { label: "", ...input.data },
   };
-  doc.transact(() => nodes.set(node.id, node), origin);
+  doc.transact(() => {
+    nodes.set(node.id, node);
+    if (parentId) growGroupToFit(nodes, parentId);
+  }, origin);
   return node;
 }
 

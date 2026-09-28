@@ -6,4 +6,8 @@ export const DEFAULT_SIZE: Record<NodeType, Size> = {
   group: { width: 480, height: 320 },
 };
 
+/** Space between auto-placed nodes. */
 export const GAP = 80;
+
+/** Space between a group's border and its children. */
+export const GROUP_PADDING = 32;
